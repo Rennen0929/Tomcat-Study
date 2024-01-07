@@ -1,5 +1,6 @@
 package dev.rennen;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -58,14 +59,20 @@ public class SocketProcessor implements Runnable{
             String protocol = new String(bytes, begin, end - begin);
             System.out.println("协议版本解析结果：" + protocol);
 
-            // 封装请求对象
+            // 封装请求和响应对象
             Request request = new Request(method, url, protocol);
+            Response response = new Response();
 
             // 匹配 Servlet、doGet、doPost
+            MyServlet myServlet = new MyServlet();
+            myServlet.service(request, response);
+
+            // 发送响应
+            response.complete();
 
 
 
-        } catch (IOException e) {
+        } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }
     }
