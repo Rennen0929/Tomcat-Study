@@ -1,6 +1,6 @@
 package dev.rennen;
 
-public class Request {
+public class Request extends AbstractHttpServletRequest {
 
     private String method;
     private String url;
@@ -16,8 +16,8 @@ public class Request {
         return method;
     }
 
-    public String getUrl() {
-        return url;
+    public StringBuffer getRequestURL() {
+        return new StringBuffer(url);
     }
 
     public String getProtocol() {
