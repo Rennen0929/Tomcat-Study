@@ -60,8 +60,8 @@ public class SocketProcessor implements Runnable{
             System.out.println("协议版本解析结果：" + protocol);
 
             // 封装请求和响应对象
-            Request request = new Request(method, url, protocol);
-            Response response = new Response();
+            Request request = new Request(method, url, protocol,socket);
+            Response response = new Response(request);
 
             // 匹配 Servlet、doGet、doPost
             MyServlet myServlet = new MyServlet();
