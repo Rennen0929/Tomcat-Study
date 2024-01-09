@@ -61,8 +61,19 @@ public class Response extends AbstractHttpServletResponse{
     private void sendResponseBody() {
     }
 
-    private void sendResponseHeader(){
+    private void sendResponseHeader() throws IOException {
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            socketOutputStream.write(key.getBytes());
+            socketOutputStream.write(":".getBytes());
+            socketOutputStream.write(value.getBytes());
+            socketOutputStream.write(CR);
+            socketOutputStream.write(LF);
         }
+        socketOutputStream.write(CR);
+        socketOutputStream.write(LF);
+    }
 
 
     private void sendResponseLine() throws IOException {
