@@ -18,7 +18,11 @@ public class Response extends AbstractHttpServletResponse{
     private OutputStream socketOutputStream;
     public Response(Request request) {
         this.request = request;
-
+        try {
+            this.socketOutputStream = request.getSocket().getOutputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
