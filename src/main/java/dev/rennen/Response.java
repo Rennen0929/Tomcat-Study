@@ -16,6 +16,7 @@ public class Response extends AbstractHttpServletResponse{
     private Map<String, String> headers = new HashMap<>();
     private Request request;
     private OutputStream socketOutputStream;
+    private ResponseServletOutputStream responseServletOutputStream = new ResponseServletOutputStream();
     public Response(Request request) {
         this.request = request;
         try {
@@ -42,8 +43,8 @@ public class Response extends AbstractHttpServletResponse{
     }
 
     @Override
-    public ServletOutputStream getOutputStream() throws IOException {
-        return new ResponseServletOutputStream();
+    public ResponseServletOutputStream getOutputStream() throws IOException {
+        return responseServletOutputStream;
     }
 
     public void complete() {
@@ -58,10 +59,17 @@ public class Response extends AbstractHttpServletResponse{
 
     }
 
-    private void sendResponseBody() {
+    private void sendResponseBody() throws IOException {
+        socketOutputStream.write(getOutputStream().getBytes());
     }
 
     private void sendResponseHeader() throws IOException {
+        if(!headers.containsKey("Content-Length")) {
+            addHeader("Content-Length",String.valueOf(getOutputStream().getPos()));
+        }
+        if(!headers.containsKey("Content-Type")) {
+            addHeader("Content-Type","text/plain;charset=utf-8");
+        }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

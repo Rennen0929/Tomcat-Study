@@ -11,6 +11,7 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("执行 doGet 方法");
+        System.out.println(req.getMethod());
         resp.getOutputStream().write("Hello, World!".getBytes());
     }
 }
