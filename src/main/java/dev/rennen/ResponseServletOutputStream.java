@@ -13,7 +13,7 @@ public class ResponseServletOutputStream extends ServletOutputStream {
     }
 
     public byte[] getBytes() {
-
+        return bytes;
     }
 
     public int getPos() {
