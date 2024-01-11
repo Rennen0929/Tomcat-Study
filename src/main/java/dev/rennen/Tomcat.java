@@ -54,7 +54,7 @@ public class Tomcat {
 //            System.out.println(servletClass);
                 if (HttpServlet.class.isAssignableFrom(servletClass)) {
 //                    System.out.println(servletClass);
-                    if (servletClass.isAssignableFrom(WebServlet.class)) {
+                    if (servletClass.isAnnotationPresent(WebServlet.class)) {
                         WebServlet annotation = servletClass.getAnnotation(WebServlet.class);
                         String[] urlPatterns = annotation.urlPatterns();
                         for (String urlPattern : urlPatterns) {

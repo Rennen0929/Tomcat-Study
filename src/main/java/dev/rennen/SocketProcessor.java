@@ -66,7 +66,7 @@ public class SocketProcessor implements Runnable {
             // 封装请求和响应对象
             Request request = new Request(method, url, protocol, socket);
             Response response = new Response(request);
-            String requestUrl = request.getRequestURI().toString();
+            String requestUrl = request.getRequestURL().toString();
 //            System.out.println(requestUrl);
             requestUrl = requestUrl.substring(1);
             String[] parts = requestUrl.split("/");
@@ -85,14 +85,7 @@ public class SocketProcessor implements Runnable {
                     // 发送响应
                     response.complete();
                 }
-
             }
-
-
-            // 匹配 Servlet、doGet、doPost
-//            MyServlet myServlet = new MyServlet();
-//            myServlet.service(request, response);
-
 
         } catch (IOException e) {
             throw new RuntimeException(e);
