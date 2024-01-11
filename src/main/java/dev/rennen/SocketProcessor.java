@@ -80,8 +80,8 @@ public class SocketProcessor implements Runnable {
                     // 发送响应
                     response.complete();
                 } else {
-                    DefalutSerlet defalutSerlet = new DefalutSerlet();
-                    defalutSerlet.service(request, response);
+                    DefaultServlet defaultServlet = new DefaultServlet();
+                    defaultServlet.service(request, response);
                     // 发送响应
                     response.complete();
                 }
