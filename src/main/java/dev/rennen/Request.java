@@ -9,7 +9,7 @@ public class Request extends AbstractHttpServletRequest {
     private String protocol;
     private Socket socket;
 
-    public Request(String method, String url, String protocol,Socket socket) {
+    public Request(String method, String url, String protocol, Socket socket) {
         this.method = method;
         this.url = url;
         this.protocol = protocol;
@@ -27,6 +27,7 @@ public class Request extends AbstractHttpServletRequest {
     public String getProtocol() {
         return protocol;
     }
+
     public Socket getSocket() {
         return socket;
     }

@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Response extends AbstractHttpServletResponse{
+public class Response extends AbstractHttpServletResponse {
 
     private int status = 200;
     private String message = "OK";
@@ -17,6 +17,7 @@ public class Response extends AbstractHttpServletResponse{
     private Request request;
     private OutputStream socketOutputStream;
     private ResponseServletOutputStream responseServletOutputStream = new ResponseServletOutputStream();
+
     public Response(Request request) {
         this.request = request;
         try {
@@ -64,11 +65,11 @@ public class Response extends AbstractHttpServletResponse{
     }
 
     private void sendResponseHeader() throws IOException {
-        if(!headers.containsKey("Content-Length")) {
-            addHeader("Content-Length",String.valueOf(getOutputStream().getPos()));
+        if (!headers.containsKey("Content-Length")) {
+            addHeader("Content-Length", String.valueOf(getOutputStream().getPos()));
         }
-        if(!headers.containsKey("Content-Type")) {
-            addHeader("Content-Type","text/plain;charset=utf-8");
+        if (!headers.containsKey("Content-Type")) {
+            addHeader("Content-Type", "text/plain;charset=utf-8");
         }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
