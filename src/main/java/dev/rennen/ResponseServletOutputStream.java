@@ -11,7 +11,6 @@ public class ResponseServletOutputStream extends ServletOutputStream {
     @Override
     public void write(int b) throws IOException {
         bytes[pos++] = (byte) b;
-        pos++;
     }
 
     public byte[] getBytes() {
