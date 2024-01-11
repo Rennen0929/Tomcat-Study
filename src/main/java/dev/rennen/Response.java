@@ -69,7 +69,7 @@ public class Response extends AbstractHttpServletResponse {
             addHeader("Content-Length", String.valueOf(getOutputStream().getPos()));
         }
         if (!headers.containsKey("Content-Type")) {
-            addHeader("Content-Type", "text/plain;charset=utf-8");
+            addHeader("Content-Type", "text/html; charset=utf-8");
         }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
