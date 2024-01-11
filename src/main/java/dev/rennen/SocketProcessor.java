@@ -1,5 +1,6 @@
 package dev.rennen;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,9 +9,10 @@ import java.net.Socket;
 public class SocketProcessor implements Runnable{
 
     private Socket socket;
-
-    public SocketProcessor(Socket socket) {
+    private Tomcat tomcat;
+    public SocketProcessor(Socket socket,Tomcat tomcat) {
         this.socket = socket;
+        this.tomcat = tomcat;
     }
     @Override
     public void run() {
@@ -62,17 +64,40 @@ public class SocketProcessor implements Runnable{
             // 封装请求和响应对象
             Request request = new Request(method, url, protocol,socket);
             Response response = new Response(request);
+            String requestUrl = request.getRequestURI().toString();
+//            System.out.println(requestUrl);
+            requestUrl = requestUrl.substring(1);
+            String[]parts = requestUrl.split("/");
+
+            String appName = parts[0];
+            Context context = tomcat.getContextMap().get(appName);
+            if(parts.length > 1) {
+                Servlet servlet = context.getByUrlPattern(parts[1]);
+                if(servlet != null) {
+                    servlet.service(request,response);
+                    // 发送响应
+                    response.complete();
+                } else {
+                    DefalutSerlet defalutSerlet = new DefalutSerlet();
+                    defalutSerlet.service(request,response);
+                    // 发送响应
+                    response.complete();
+                }
+
+            }
+
 
             // 匹配 Servlet、doGet、doPost
-            MyServlet myServlet = new MyServlet();
-            myServlet.service(request, response);
-
-            // 发送响应
-            response.complete();
+//            MyServlet myServlet = new MyServlet();
+//            myServlet.service(request, response);
 
 
 
-        } catch (IOException | ServletException e) {
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ServletException e) {
             throw new RuntimeException(e);
         }
     }
